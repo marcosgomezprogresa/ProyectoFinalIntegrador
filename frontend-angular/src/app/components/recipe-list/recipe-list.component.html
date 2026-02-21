@@ -1,0 +1,152 @@
+<div class="row">
+  <div class="col-md-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Filtros</h5>
+        <div class="mb-3">
+          <label class="form-label">Categoría</label>
+          <select class="form-select" [(ngModel)]="selectedCategory" (change)="onCategoryChange()">
+            <option value="">Todas</option>
+            <option value="appetizer">Entrada</option>
+            <option value="main">Plato Principal</option>
+            <option value="dessert">Postre</option>
+            <option value="beverage">Bebida</option>
+            <option value="snack">Snack</option>
+          </select>
+        </div>
+        <button class="btn btn-warning w-100 mb-2" (click)="getVeganRecipes()">
+          🌱 Veganas
+        </button>
+        <button class="btn btn-info w-100" (click)="loadRecipes()">
+          Todas
+        </button>
+      </div>
+    </div>
+
+    <div class="card mt-3">
+      <div class="card-body">
+        <h5 class="card-title">Crear Receta</h5>
+        <button class="btn btn-success w-100" (click)="toggleFormModal()">
+          + Nueva Receta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-9">
+    <!-- Loading -->
+    <div *ngIf="loading" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+
+    <!-- Error Alert -->
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ errorMessage }}
+      <button type="button" class="btn-close" (click)="errorMessage = null"></button>
+    </div>
+
+    <!-- Success Alert -->
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ successMessage }}
+      <button type="button" class="btn-close" (click)="successMessage = null"></button>
+    </div>
+
+    <!-- Recipes Table -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Recetas ({{pagination.total}} total)</h5>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Categoría</th>
+                <th>Tiempo (min)</th>
+                <th>Dificultad</th>
+                <th>Rating</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let recipe of recipes">
+                <td>{{ recipe.title }}</td>
+                <td>
+                  <span class="badge" [ngClass]="getCategoryBadgeClass(recipe.category)">
+                    {{ getCategoryLabel(recipe.category) }}
+                  </span>
+                </td>
+                <td>{{ recipe.preparationTime }}</td>
+                <td>
+                  <span class="badge" [ngClass]="getDifficultyBadgeClass(recipe.difficulty)">
+                    {{ getDifficultyLabel(recipe.difficulty) }}
+                  </span>
+                </td>
+                <td>⭐ {{ recipe.rating }}</td>
+                <td>
+                  <button class="btn btn-sm btn-primary" (click)="viewRecipe(recipe)">Ver</button>
+                  <button class="btn btn-sm btn-warning ms-1" (click)="editRecipe(recipe)">Editar</button>
+                  <button class="btn btn-sm btn-danger ms-1" (click)="deleteRecipe(recipe._id!)">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <nav>
+          <ul class="pagination justify-content-center">
+            <li class="page-item" [class.disabled]="pagination.page <= 1">
+              <button class="page-link" (click)="goToPage(pagination.page - 1)" [disabled]="pagination.page <= 1">
+                Anterior
+              </button>
+            </li>
+            <li class="page-item active">
+              <span class="page-link">Página {{ pagination.page }} de {{ pagination.pages }}</span>
+            </li>
+            <li class="page-item" [class.disabled]="pagination.page >= pagination.pages">
+              <button class="page-link" (click)="goToPage(pagination.page + 1)" [disabled]="pagination.page >= pagination.pages">
+                Siguiente
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recipe Detail Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalles de Receta</h5>
+        <button type="button" class="btn-close" (click)="closeDetailModal()"></button>
+      </div>
+      <div class="modal-body">
+        <app-recipe-detail *ngIf="selectedRecipe" [recipe]="selectedRecipe"></app-recipe-detail>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recipe Form Modal -->
+<div class="modal fade" id="formModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ editingRecipe ? 'Editar Receta' : 'Nueva Receta' }}</h5>
+        <button type="button" class="btn-close" (click)="closeFormModal()"></button>
+      </div>
+      <div class="modal-body">
+        <app-recipe-form 
+          [recipe]="editingRecipe" 
+          (saved)="onRecipeSaved($event)"
+          (closed)="closeFormModal()">
+        </app-recipe-form>
+      </div>
+    </div>
+  </div>
+</div>
