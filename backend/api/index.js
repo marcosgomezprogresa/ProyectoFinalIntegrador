@@ -1,4 +1,4 @@
-const app = require('./app');
+const app = require('../app');
 
 // Vercel serverless handler
 module.exports = app;
