@@ -1,6 +1,6 @@
 import { Recipe, PaginationResponse, ApiResponse } from '../types/Recipe';
 
-const API_URL = 'http://localhost:3000/api/v1/recipes';
+const API_URL = 'https://proyectofinalintegradorbackend.vercel.app/api/v1/recipes';
 
 export const recipeService = {
   // Obtener todas las recetas con paginación

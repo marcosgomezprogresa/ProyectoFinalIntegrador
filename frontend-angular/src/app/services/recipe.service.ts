@@ -7,7 +7,7 @@ import { Recipe, PaginatedResponse, ApiResponse } from '../models/recipe.model';
   providedIn: 'root'
 })
 export class RecipeService {
-  private apiUrl = 'http://localhost:3000/api/v1/recipes';
+  private apiUrl = 'https://proyectofinalintegradorbackend.vercel.app/api/v1/recipes';
 
   constructor(private http: HttpClient) { }
 
