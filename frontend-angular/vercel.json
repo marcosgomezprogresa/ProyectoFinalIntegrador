@@ -1,6 +1,6 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
+  "outputDirectory": "dist/frontend-angular",
   "rewrites": [
     {
       "source": "/(.*)",
