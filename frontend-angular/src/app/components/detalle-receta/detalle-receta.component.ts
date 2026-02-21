@@ -1,0 +1,104 @@
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Recipe } from '../../models/recipe.model';
+
+@Component({
+  selector: 'app-detalle-receta',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div *ngIf="receta">
+      <div class="mb-3">
+        <img 
+          *ngIf="receta.imageUrl" 
+          [src]="receta.imageUrl" 
+          alt="{{ receta.title }}"
+          class="img-fluid rounded mb-3"
+          style="width: 100%; max-height: 300px; object-fit: cover;"
+        />
+      </div>
+
+      <div class="mb-3">
+        <h6 class="text-muted">Título</h6>
+        <p class="h5">{{ receta.title }}</p>
+      </div>
+
+      <div class="mb-3">
+        <h6 class="text-muted">Descripción</h6>
+        <p>{{ receta.description }}</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="mb-3">
+            <h6 class="text-muted">Tiempo de Preparación</h6>
+            <p>⏱️ {{ receta.preparationTime }} minutos</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <h6 class="text-muted">Porciones</h6>
+            <p>🍽️ {{ receta.servings }} porciones</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="mb-3">
+            <h6 class="text-muted">Dificultad</h6>
+            <p>
+              <span class="badge" [ngClass]="obtenerClaseDificultad()">
+                {{ receta.difficulty | uppercase }}
+              </span>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <h6 class="text-muted">Categoría</h6>
+            <p>
+              <span class="badge bg-primary">{{ receta.category }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <h6 class="text-muted">Ingredientes</h6>
+        <p>{{ receta.ingredients }}</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="mb-3">
+            <h6 class="text-muted">Características</h6>
+            <ul class="list-unstyled">
+              <li *ngIf="receta.isVegan" class="text-success">✅ Vegana</li>
+              <li *ngIf="receta.isGlutenFree" class="text-success">✅ Sin Gluten</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <h6 class="text-muted">Rating</h6>
+            <p>⭐ {{ receta.rating }}/5</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+  styles: []
+})
+export class DetalleRecetaComponent {
+  @Input() receta!: Recipe;
+
+  obtenerClaseDificultad(): string {
+    const clases: any = {
+      easy: 'bg-success',
+      medium: 'bg-warning text-dark',
+      hard: 'bg-danger'
+    };
+    return clases[this.receta.difficulty] || 'bg-secondary';
+  }
+}
