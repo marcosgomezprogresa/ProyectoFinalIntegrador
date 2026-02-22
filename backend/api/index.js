@@ -1,51 +1,52 @@
 const mongoose = require('mongoose');
 const app = require('../app');
 
-let isConnected = false;
-
-// Connect to MongoDB
-const connectDB = async () => {
-  if (isConnected) {
-    console.log('✅ Already connected to MongoDB');
+// MongoDB connection handler
+async function ensureDBConnected() {
+  // Check if already connected
+  if (mongoose.connection.readyState === 1) {
     return;
   }
 
-  if (mongoose.connection.readyState >= 1) {
-    isConnected = true;
-    console.log('✅ Mongoose already connected');
-    return;
-  }
-  
   const mongoURI = process.env.MONGODB_URI;
+  
   if (!mongoURI) {
-    throw new Error('❌ MONGODB_URI env var is not defined');
+    throw new Error('MONGODB_URI environment variable is not set');
   }
 
   try {
     await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
     });
-    isConnected = true;
-    console.log('✅ Connected to MongoDB Atlas');
   } catch (error) {
-    console.error('❌ Failed to connect to MongoDB:', error.message);
+    console.error('MongoDB connection error:', error);
     throw error;
   }
-};
+}
 
-// Middleware to ensure DB connection before handling requests
+// Wrap all requests with DB connection
 app.use(async (req, res, next) => {
   try {
-    await connectDB();
+    await ensureDBConnected();
     next();
   } catch (error) {
-    res.status(500).json({
+    console.error('Failed to connect to database:', error.message);
+    return res.status(500).json({
       success: false,
-      message: 'Database connection failed',
+      message: 'Database connection error',
       error: error.message,
     });
   }
+});
+
+// Graceful shutdown handler
+process.on('SIGINT', async () => {
+  if (mongoose.connection.readyState >= 1) {
+    await mongoose.connection.close();
+  }
+  process.exit(0);
 });
 
 module.exports = app;
