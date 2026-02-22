@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "dist/frontend-angular",
+  "outputDirectory": "dist",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
