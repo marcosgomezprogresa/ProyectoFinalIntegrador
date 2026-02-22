@@ -1,21 +1,34 @@
 const mongoose = require('mongoose');
 const app = require('../app');
 
-// Connect to MongoDB at startup
-const mongoURI = process.env.MONGODB_URI;
+// Connection handler for serverless
+const connectDB = async () => {
+  // If already connected, return
+  if (mongoose.connections[0].readyState === 1) {
+    return;
+  }
 
-if (mongoURI) {
-  mongoose.connect(mongoURI, {
+  const mongoURI = process.env.MONGODB_URI;
+  if (!mongoURI) {
+    throw new Error('MONGODB_URI not configured');
+  }
+
+  await mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     maxPoolSize: 10,
-    serverSelectionTimeoutMS: 5000,
-    socketTimeoutMS: 45000,
-  })
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch(err => console.error('❌ MongoDB error:', err.message));
-} else {
-  console.error('❌ MONGODB_URI is not set');
-}
+  });
+};
+
+// Middleware to ensure connection before each request
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    console.error('DB connection error:', error);
+    res.status(500).json({ success: false, message: 'Database error' });
+  }
+});
 
 module.exports = app;
