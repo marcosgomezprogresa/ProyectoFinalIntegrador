@@ -27,14 +27,14 @@ export const ListadoRecetas: React.FC = () => {
     cargarRecetas();
   }, []);
 
-  const cargarRecetas = async () => {
-    console.log('📥 Cargando recetas...');
+  const cargarRecetas = async (page: number = 1) => {
+    console.log('📥 Cargando recetas...', `Página: ${page}`);
     setCargando(true);
     setMensajeError(null);
     setCategoriaSeleccionada('');
 
     try {
-      const response = await recipeService.getAllRecipes(paginacion.page, paginacion.limit);
+      const response = await recipeService.getAllRecipes(page, paginacion.limit);
       console.log('✅ Recetas cargadas:', response);
       setRecetas(response.data);
       setPaginacion(response.pagination);
@@ -130,9 +130,8 @@ export const ListadoRecetas: React.FC = () => {
 
   const irAPagina = (page: number) => {
     if (page >= 1 && page <= paginacion.pages) {
-      setPaginacion({ ...paginacion, page });
-      // Aquí se podría hacer otra llamada a la API con la nueva página
-      cargarRecetas();
+      // Llamar cargarRecetas con el nuevo número de página directamente
+      cargarRecetas(page);
     }
   };
 
