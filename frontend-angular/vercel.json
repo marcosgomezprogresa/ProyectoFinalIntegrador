@@ -1,0 +1,9 @@
+{
+  "outputDirectory": "dist/frontend-angular",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
