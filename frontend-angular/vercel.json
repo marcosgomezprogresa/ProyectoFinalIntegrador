@@ -1,6 +1,6 @@
 {
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/.*", "dest": "/index.html" }
+  "outputDirectory": "dist/frontend-angular",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
