@@ -66,8 +66,8 @@
                 <div class="mb-2">
                   <span class="badge me-1" [ngClass]="obtenerClaseBadgeCategoria(receta.category)">{{ obtenerEtiquetaCategoria(receta.category) }}</span>
                   <span class="badge me-1" [ngClass]="obtenerClaseBadgeDificultad(receta.difficulty)">{{ obtenerEtiquetaDificultad(receta.difficulty) }}</span>
-                  <span *ngIf="receta.isVegan" class="badge bg-success me-1">🌱</span>
-                  <span *ngIf="receta.isGlutenFree" class="badge bg-info">🚫GF</span>
+                  <span *ngIf="receta.isVegan" class="badge bg-success me-1">🌱 Vegana</span>
+                  <span *ngIf="receta.isGlutenFree" class="badge bg-info">🚫 Sin Gluten</span>
                 </div>
                 <h5 class="card-title fw-bold mb-2" style="min-height:2em; font-size:1rem;">{{ receta.title }}</h5>
                 <p class="card-text text-muted small flex-grow-1">{{ receta.description | slice:0:70 }}...</p>
