@@ -34,7 +34,6 @@ const connectDB = async () => {
       maxPoolSize: 10,
       serverSelectionTimeoutMS: 15000,
       socketTimeoutMS: 60000,
-      bufferMaxEntries: 0,
     });
     cachedConnection = connection;
     return connection;
