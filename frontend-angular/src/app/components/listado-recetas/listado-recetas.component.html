@@ -1,123 +1,111 @@
-<div class="row">
-  <div class="col-md-3">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Filtros</h5>
-        <div class="mb-3">
-          <label class="form-label">Categoría</label>
-          <div class="input-group">
-            <select class="form-select" [(ngModel)]="categoriaSeleccionada">
-              <option value="">Todas</option>
-              <option value="entrante">Entrante</option>
-              <option value="principal">Principal</option>
-              <option value="postre">Postre</option>
-              <option value="bebida">Bebida</option>
-              <option value="refrigerio">Refrigerio</option>
-            </select>
-            <button class="btn btn-outline-primary" type="button" (click)="alCambiarCategoria()" title="Buscar">
-              🔍
-            </button>
-          </div>
+<div class="w-100">
+  <!-- Toolbar Filtros -->
+  <div class="bg-light border-bottom shadow-sm mb-4">
+    <div class="container-fluid py-3">
+      <div class="row align-items-center g-3">
+        <div class="col-auto">
+          <label class="form-label mb-0 fw-bold">📂 Categoría:</label>
         </div>
-        <button class="btn btn-warning w-100 mb-2" (click)="obtenerRecetasVeganas()">
-          🌱 Veganas
-        </button>
-        <button class="btn btn-info w-100" (click)="cargarRecetas()">
-          Todas
-        </button>
-      </div>
-    </div>
-
-    <div class="card mt-3">
-      <div class="card-body">
-        <h5 class="card-title">Crear Receta</h5>
-        <button class="btn btn-success w-100" (click)="abrirFormularioModal()">
-          + Nueva Receta
-        </button>
+        <div class="col-auto">
+          <select class="form-select form-select-sm" [(ngModel)]="categoriaSeleccionada">
+            <option value="">Todas</option>
+            <option value="entrante">Entrante</option>
+            <option value="principal">Principal</option>
+            <option value="postre">Postre</option>
+            <option value="bebida">Bebida</option>
+            <option value="refrigerio">Refrigerio</option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-sm btn-outline-primary" (click)="alCambiarCategoria()">🔍 Buscar</button>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-sm btn-outline-success" (click)="obtenerRecetasVeganas()">🌱 Veganas</button>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-sm btn-outline-info" (click)="cargarRecetas()">✅ Todas</button>
+        </div>
+        <div class="col-auto ms-auto">
+          <button class="btn btn-sm btn-primary" (click)="abrirFormularioModal()">➕ Nueva Receta</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="col-md-9">
-    <!-- Cargando -->
-    <div *ngIf="cargando" class="text-center">
+  <!-- Alerts -->
+  <div class="container-fluid">
+    <div *ngIf="cargando" class="text-center py-4">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Cargando...</span>
       </div>
     </div>
-
-    <!-- Alerta Error -->
     <div *ngIf="mensajeError" class="alert alert-danger alert-dismissible fade show" role="alert">
       {{ mensajeError }}
       <button type="button" class="btn-close" (click)="mensajeError = null"></button>
     </div>
-
-    <!-- Alerta Éxito -->
     <div *ngIf="mensajeExito" class="alert alert-success alert-dismissible fade show" role="alert">
       {{ mensajeExito }}
       <button type="button" class="btn-close" (click)="mensajeExito = null"></button>
     </div>
+  </div>
 
-    <!-- Tabla Recetas -->
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Recetas ({{paginacion.total}} total)</h5>
-        <div class="table-responsive">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>Título</th>
-                <th>Categoría</th>
-                <th>Tiempo (min)</th>
-                <th>Dificultad</th>
-                <th>Rating</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let receta of recetas">
-                <td>{{ receta.title }}</td>
-                <td>
-                  <span class="badge" [ngClass]="obtenerClaseBadgeCategoria(receta.category)">
-                    {{ obtenerEtiquetaCategoria(receta.category) }}
-                  </span>
-                </td>
-                <td>{{ receta.preparationTime }}</td>
-                <td>
-                  <span class="badge" [ngClass]="obtenerClaseBadgeDificultad(receta.difficulty)">
-                    {{ obtenerEtiquetaDificultad(receta.difficulty) }}
-                  </span>
-                </td>
-                <td>⭐ {{ receta.rating }}</td>
-                <td>
-                  <button class="btn btn-sm btn-primary" (click)="verReceta(receta)">Ver</button>
-                  <button class="btn btn-sm btn-warning ms-1" (click)="editarReceta(receta)">Editar</button>
-                  <button class="btn btn-sm btn-danger ms-1" (click)="eliminarReceta(receta._id!)">Eliminar</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+  <!-- Cards Grid -->
+  <div class="container-fluid" id="recipes-section">
+    <div class="mb-5">
+      <h3 class="mb-4 fw-bold">📋 Recetas ({{paginacion.total}} total)</h3>
+
+      <ng-container *ngIf="recetas.length > 0">
+        <div class="row g-4">
+          <div *ngFor="let receta of recetas" class="col-lg-3 col-md-6">
+            <div class="card h-100 shadow-sm border-0 recipe-card">
+              <div class="card-image" style="height:150px; background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                <img *ngIf="receta.imageUrl" [src]="receta.imageUrl" [alt]="receta.title" style="width:100%; height:100%; object-fit:cover;">
+                <div *ngIf="!receta.imageUrl" style="font-size:2.5rem;">🍳</div>
+              </div>
+              <div class="card-body d-flex flex-column">
+                <div class="mb-2">
+                  <span class="badge me-1" [ngClass]="obtenerClaseBadgeCategoria(receta.category)">{{ obtenerEtiquetaCategoria(receta.category) }}</span>
+                  <span class="badge me-1" [ngClass]="obtenerClaseBadgeDificultad(receta.difficulty)">{{ obtenerEtiquetaDificultad(receta.difficulty) }}</span>
+                  <span *ngIf="receta.isVegan" class="badge bg-success me-1">🌱</span>
+                  <span *ngIf="receta.isGlutenFree" class="badge bg-info">🚫GF</span>
+                </div>
+                <h5 class="card-title fw-bold mb-2" style="min-height:2em; font-size:1rem;">{{ receta.title }}</h5>
+                <p class="card-text text-muted small flex-grow-1">{{ receta.description | slice:0:70 }}...</p>
+                <div class="d-flex justify-content-between text-muted small mb-3 py-2 border-top border-bottom">
+                  <span>⏱️ {{ receta.preparationTime }}m</span>
+                  <span>👥 {{ receta.servings }}</span>
+                  <span>⭐ {{ receta.rating }}/5</span>
+                </div>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-sm btn-primary" (click)="verReceta(receta)">👁️ Ver</button>
+                  <button class="btn btn-sm btn-warning" (click)="editarReceta(receta)">✏️ Editar</button>
+                  <button class="btn btn-sm btn-danger" (click)="eliminarReceta(receta._id!)">🗑️ Eliminar</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Paginación -->
-        <nav>
-          <ul class="pagination justify-content-center">
+        <nav class="d-flex justify-content-center mt-5">
+          <ul class="pagination">
             <li class="page-item" [class.disabled]="paginacion.page <= 1">
-              <button class="page-link" (click)="irAPagina(paginacion.page - 1)" [disabled]="paginacion.page <= 1">
-                Anterior
-              </button>
+              <button class="page-link" (click)="irAPagina(paginacion.page - 1)" [disabled]="paginacion.page <= 1">← Anterior</button>
             </li>
             <li class="page-item active">
-              <span class="page-link">Página {{ paginacion.page }} de {{ paginacion.pages }}</span>
+              <span class="page-link">{{ paginacion.page }}/{{ paginacion.pages }}</span>
             </li>
             <li class="page-item" [class.disabled]="paginacion.page >= paginacion.pages">
-              <button class="page-link" (click)="irAPagina(paginacion.page + 1)" [disabled]="paginacion.page >= paginacion.pages">
-                Siguiente
-              </button>
+              <button class="page-link" (click)="irAPagina(paginacion.page + 1)" [disabled]="paginacion.page >= paginacion.pages">Siguiente →</button>
             </li>
           </ul>
         </nav>
-      </div>
+      </ng-container>
+
+      <ng-container *ngIf="recetas.length === 0 && !cargando">
+        <div class="alert alert-info text-center">
+          <p class="mb-0">No hay recetas disponibles</p>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>
