@@ -1,11 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-require('dotenv').config();
 
 // Import models to register them with Mongoose
-require('./src/models/Recipe');
+require('./models/Recipe');
 
 const app = express();
 
@@ -55,7 +55,7 @@ app.use(async (req, res, next) => {
 });
 
 // Routes AFTER middleware
-const recipeRoutes = require('./src/routes/recipeRoutes');
+const recipeRoutes = require('./routes/recipeRoutes');
 app.use('/api/v1/recipes', recipeRoutes);
 
 // API Documentation - Root endpoint - Shows all recipes with pagination
@@ -121,5 +121,14 @@ app.use((req, res) => {
     message: 'Route not found',
   });
 });
+
+// SOLO si no es Vercel serverless
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`\n✓ Server running on http://localhost:${PORT}`);
+    console.log(`✓ API Documentation: http://localhost:${PORT}/api/v1/recipes/documentation\n`);
+  });
+}
 
 module.exports = app;
