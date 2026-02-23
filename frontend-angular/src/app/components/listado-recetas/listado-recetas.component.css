@@ -1,10 +1,1 @@
-.recipe-card {
-  transition: all 0.3s ease;
-  border-left: 4px solid #667eea !important;
-}
-
-.recipe-card:hover {
-  transform: translateY(-8px) rotate(-1deg);
-  box-shadow: 0 12px 25px rgba(102, 126, 234, 0.25) !important;
-  border-left-color: #764ba2 !important;
-}
+/* Only Bootstrap - No custom CSS */
