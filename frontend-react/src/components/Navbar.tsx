@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 export const Navbar: React.FC = () => {
+  const scrollToRecipes = () => {
+    const element = document.getElementById('recipes-section');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow">
       <div className="container-fluid">
@@ -28,9 +35,13 @@ export const Navbar: React.FC = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <a href="#recipes" className="nav-link">
+              <button 
+                className="nav-link btn btn-link"
+                onClick={scrollToRecipes}
+                style={{ border: 'none', background: 'none', cursor: 'pointer' }}
+              >
                 Recetas
-              </a>
+              </button>
             </li>
           </ul>
         </div>

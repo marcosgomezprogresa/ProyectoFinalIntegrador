@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Recipe } from '../types/Recipe';
 import { recipeService } from '../services/recipeService';
 import { DetalleReceta } from './DetalleReceta';
 import { FormularioReceta } from './FormularioReceta';
 import './ListadoRecetas.css';
+import { Modal } from 'bootstrap';
 
 export const ListadoRecetas: React.FC = () => {
   const [recetas, setRecetas] = useState<Recipe[]>([]);
@@ -13,8 +14,12 @@ export const ListadoRecetas: React.FC = () => {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [recetaSeleccionada, setRecetaSeleccionada] = useState<Recipe | null>(null);
   const [recetaEditando, setRecetaEditando] = useState<Recipe | null>(null);
-  const [mostrarDetalleModal, setMostrarDetalleModal] = useState(false);
-  const [mostrarFormularioModal, setMostrarFormularioModal] = useState(false);
+
+  // Refs para modales Bootstrap
+  const detailModalRef = useRef<HTMLDivElement>(null);
+  const formModalRef = useRef<HTMLDivElement>(null);
+  const detailModalInstance = useRef<Modal | null>(null);
+  const formModalInstance = useRef<Modal | null>(null);
 
   const [paginacion, setPaginacion] = useState({
     page: 1,
@@ -25,6 +30,13 @@ export const ListadoRecetas: React.FC = () => {
 
   useEffect(() => {
     cargarRecetas();
+    // Inicializar modales Bootstrap
+    if (detailModalRef.current) {
+      detailModalInstance.current = new Modal(detailModalRef.current);
+    }
+    if (formModalRef.current) {
+      formModalInstance.current = new Modal(formModalRef.current);
+    }
   }, []);
 
   const cargarRecetas = async (page: number = 1) => {
@@ -92,13 +104,17 @@ export const ListadoRecetas: React.FC = () => {
   const verReceta = (receta: Recipe) => {
     console.log('👁️ Ver receta:', receta);
     setRecetaSeleccionada(receta);
-    setMostrarDetalleModal(true);
+    if (detailModalInstance.current) {
+      detailModalInstance.current.show();
+    }
   };
 
   const editarReceta = (receta: Recipe) => {
     console.log('✏️ Editar receta:', receta);
     setRecetaEditando({ ...receta });
-    setMostrarFormularioModal(true);
+    if (formModalInstance.current) {
+      formModalInstance.current.show();
+    }
   };
 
   const eliminarReceta = async (id: string) => {
@@ -117,13 +133,17 @@ export const ListadoRecetas: React.FC = () => {
   const abrirFormularioCrear = () => {
     console.log('🆕 Crear nueva receta');
     setRecetaEditando(null);
-    setMostrarFormularioModal(true);
+    if (formModalInstance.current) {
+      formModalInstance.current.show();
+    }
   };
 
   const alRecetaGuardada = (mensaje: string) => {
     console.log('💾 Receta guardada:', mensaje);
     setMensajeExito(mensaje);
-    setMostrarFormularioModal(false);
+    if (formModalInstance.current) {
+      formModalInstance.current.hide();
+    }
     cargarRecetas();
     setTimeout(() => setMensajeExito(null), 3000);
   };
@@ -215,7 +235,7 @@ export const ListadoRecetas: React.FC = () => {
           )}
 
           {/* Grid Tarjetas Recetas */}
-          <div className="mb-5">
+          <div className="mb-5" id="recipes-section">
             <h3 className="mb-4 fw-bold">📋 Recetas ({paginacion.total} total)</h3>
             
             {recetas.length > 0 ? (
@@ -325,47 +345,71 @@ export const ListadoRecetas: React.FC = () => {
         </div>
       </div>
 
-      {/* Modal Detalle */}
-      {mostrarDetalleModal && recetaSeleccionada && (
-        <div className="modal-overlay" onClick={() => setMostrarDetalleModal(false)}>
-          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+      {/* Modal Detalle Bootstrap */}
+      <div
+        className="modal fade"
+        id="detailModal"
+        ref={detailModalRef}
+        tabIndex={-1}
+        aria-labelledby="detailModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">Detalles de Receta</h5>
+              <h5 className="modal-title" id="detailModalLabel">
+                Detalles de Receta
+              </h5>
               <button
                 type="button"
                 className="btn-close"
-                onClick={() => setMostrarDetalleModal(false)}
+                data-bs-dismiss="modal"
+                aria-label="Close"
               ></button>
             </div>
             <div className="modal-body">
-              <DetalleReceta receta={recetaSeleccionada} />
+              {recetaSeleccionada && <DetalleReceta receta={recetaSeleccionada} />}
             </div>
           </div>
         </div>
-      )}
+      </div>
 
-      {/* Modal Formulario */}
-      {mostrarFormularioModal && (
-        <div className="modal-overlay" onClick={() => setMostrarFormularioModal(false)}>
-          <div className="modal-container modal-lg" onClick={(e) => e.stopPropagation()}>
+      {/* Modal Formulario Bootstrap */}
+      <div
+        className="modal fade"
+        id="formModal"
+        ref={formModalRef}
+        tabIndex={-1}
+        aria-labelledby="formModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">{recetaEditando ? 'Editar Receta' : 'Nueva Receta'}</h5>
+              <h5 className="modal-title" id="formModalLabel">
+                {recetaEditando ? 'Editar Receta' : 'Nueva Receta'}
+              </h5>
               <button
                 type="button"
                 className="btn-close"
-                onClick={() => setMostrarFormularioModal(false)}
+                data-bs-dismiss="modal"
+                aria-label="Close"
               ></button>
             </div>
             <div className="modal-body">
               <FormularioReceta
                 receta={recetaEditando}
                 onGuardada={alRecetaGuardada}
-                onCerrada={() => setMostrarFormularioModal(false)}
+                onCerrada={() => {
+                  if (formModalInstance.current) {
+                    formModalInstance.current.hide();
+                  }
+                }}
               />
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

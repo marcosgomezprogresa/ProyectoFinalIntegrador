@@ -25,10 +25,10 @@ import { ListadoRecetasComponent } from './components/listado-recetas/listado-re
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Inicio</a>
+              <a class="nav-link active" href="#" (click)="scrollToTop()">Inicio</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#recipes">Recetas</a>
+              <a class="nav-link" href="#" (click)="scrollToRecipes()">Recetas</a>
             </li>
           </ul>
         </div>
@@ -46,4 +46,15 @@ import { ListadoRecetasComponent } from './components/listado-recetas/listado-re
 })
 export class AppComponent {
   title = 'Recipe Management System';
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  scrollToRecipes() {
+    const element = document.getElementById('recipes-section');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }
