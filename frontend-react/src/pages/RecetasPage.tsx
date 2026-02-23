@@ -191,7 +191,7 @@ export const RecetasPage: React.FC = () => {
               <button className="btn btn-warning w-100 mb-2" onClick={obtenerRecetasVeganas}>
                 🌱 Veganas
               </button>
-              <button className="btn btn-info w-100" onClick={cargarRecetas}>
+              <button className="btn btn-info w-100" onClick={() => cargarRecetas()}>
                 Todas
               </button>
             </div>
