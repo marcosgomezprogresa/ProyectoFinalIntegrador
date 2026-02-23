@@ -3,11 +3,8 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 export const Navbar: React.FC = () => {
-  const scrollToRecipes = () => {
-    const element = document.getElementById('recipes-section');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const openAPI = () => {
+    window.open('https://proyectofinalintegradorbackend.vercel.app/', '_blank');
   };
 
   return (
@@ -37,10 +34,10 @@ export const Navbar: React.FC = () => {
             <li className="nav-item">
               <button 
                 className="nav-link btn btn-link"
-                onClick={scrollToRecipes}
+                onClick={openAPI}
                 style={{ border: 'none', background: 'none', cursor: 'pointer' }}
               >
-                Recetas
+                🔌 API
               </button>
             </li>
           </ul>

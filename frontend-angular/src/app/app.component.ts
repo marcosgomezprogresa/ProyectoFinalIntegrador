@@ -25,10 +25,10 @@ import { ListadoRecetasComponent } from './components/listado-recetas/listado-re
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="#" (click)="scrollToTop()">Inicio</a>
+              <a class="nav-link active" href="#" (click)="scrollToTop(); $event.preventDefault()">Inicio</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" (click)="scrollToRecipes()">Recetas</a>
+              <a class="nav-link" href="#" (click)="openAPI(); $event.preventDefault()">🔌 API</a>
             </li>
           </ul>
         </div>
@@ -51,10 +51,7 @@ export class AppComponent {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  scrollToRecipes() {
-    const element = document.getElementById('recipes-section');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  openAPI() {
+    window.open('https://proyectofinalintegradorbackend.vercel.app/', '_blank');
   }
 }
