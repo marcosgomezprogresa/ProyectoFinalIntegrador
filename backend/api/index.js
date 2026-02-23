@@ -1,12 +1,17 @@
 const mongoose = require('mongoose');
+
+// Import models to register them with Mongoose
+require('../src/models/Recipe');
+
 const app = require('../app');
 
-let mongoConnection = null;
+let cachedConnection = null;
 
 const connectDB = async () => {
-  // If connection exists and is ready, return it
-  if (mongoConnection && mongoose.connection.readyState === 1) {
-    return mongoConnection;
+  // Return cached connection if exists and active
+  if (cachedConnection && mongoose.connection.readyState === 1) {
+    console.log('Using cached MongoDB connection');
+    return cachedConnection;
   }
 
   const mongoURI = process.env.MONGODB_URI;
@@ -15,21 +20,23 @@ const connectDB = async () => {
   }
 
   try {
-    mongoConnection = await mongoose.connect(mongoURI, {
+    console.log('Connecting to MongoDB...');
+    const connection = await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       maxPoolSize: 10,
       minPoolSize: 5,
-      serverSelectionTimeoutMS: 10000,
+      serverSelectionTimeoutMS: 15000,
       socketTimeoutMS: 60000,
-      connectTimeoutMS: 10000,
+      connectTimeoutMS: 15000,
       retryWrites: true,
     });
 
-    return mongoConnection;
+    cachedConnection = connection;
+    console.log('✓ MongoDB connected');
+    return connection;
   } catch (error) {
     console.error('MongoDB connection error:', error.message);
-    mongoConnection = null;
     throw error;
   }
 };
@@ -40,10 +47,10 @@ app.use(async (req, res, next) => {
     await connectDB();
     next();
   } catch (error) {
-    console.error('Database connection error:', error.message);
+    console.error('Failed to connect to database:', error.message);
     res.status(500).json({
       success: false,
-      message: 'Database connection timeout - ' + error.message,
+      message: 'Database connection error: ' + error.message,
     });
   }
 });

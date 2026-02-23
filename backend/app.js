@@ -3,6 +3,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
+// Import models to register them with Mongoose
+require('./src/models/Recipe');
+
 const app = express();
 
 // Middleware
