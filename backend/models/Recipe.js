@@ -4,30 +4,30 @@ const recipeSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, 'Title is required'],
+      required: [true, 'El título es obligatorio'],
       trim: true,
-      minlength: [3, 'Title must be at least 3 characters'],
-      maxlength: [100, 'Title cannot exceed 100 characters'],
+      minlength: [3, 'El título debe tener al menos 3 caracteres'],
+      maxlength: [100, 'El título no puede exceder 100 caracteres'],
       unique: true,
     },
     description: {
       type: String,
-      required: [true, 'Description is required'],
-      minlength: [10, 'Description must be at least 10 characters'],
+      required: [true, 'La descripción es obligatoria'],
+      minlength: [10, 'La descripción debe tener al menos 10 caracteres'],
     },
     ingredients: {
       type: String,
-      required: [true, 'Ingredients are required'],
+      required: [true, 'Los ingredientes son obligatorios'],
     },
     preparationTime: {
       type: Number,
-      required: [true, 'Preparation time is required'],
-      min: [1, 'Preparation time must be at least 1 minute'],
+      required: [true, 'El tiempo de preparación es obligatorio'],
+      min: [1, 'El tiempo de preparación debe ser al menos 1 minuto'],
     },
     servings: {
       type: Number,
-      required: [true, 'Servings is required'],
-      min: [1, 'Servings must be at least 1'],
+      required: [true, 'Las porciones son obligatorias'],
+      min: [1, 'Las porciones deben ser al menos 1'],
     },
     difficulty: {
       type: String,
@@ -36,7 +36,7 @@ const recipeSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      required: [true, 'Category is required'],
+      required: [true, 'La categoría es obligatoria'],
       enum: ['entrante', 'principal', 'postre', 'bebida', 'refrigerio'],
     },
     isVegan: {

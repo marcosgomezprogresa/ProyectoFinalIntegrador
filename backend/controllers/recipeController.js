@@ -39,7 +39,7 @@ exports.getRecipeById = async (req, res) => {
     if (!recipe) {
       return res.status(404).json({
         success: false,
-        message: 'Recipe not found',
+        message: 'Receta no encontrada',
       });
     }
 
@@ -65,7 +65,7 @@ exports.createRecipe = async (req, res) => {
     if (existingRecipe) {
       return res.status(400).json({
         success: false,
-        message: 'A recipe with this title already exists',
+        message: 'Una receta con este título ya existe',
       });
     }
 
@@ -73,7 +73,7 @@ exports.createRecipe = async (req, res) => {
     if (preparationTime < 1 || preparationTime > 1000) {
       return res.status(400).json({
         success: false,
-        message: 'Preparation time must be between 1 and 1000 minutes',
+        message: 'El tiempo de preparación debe estar entre 1 y 1000 minutos',
       });
     }
 
@@ -81,7 +81,7 @@ exports.createRecipe = async (req, res) => {
     if (rating && (rating < 0 || rating > 5)) {
       return res.status(400).json({
         success: false,
-        message: 'Rating must be between 0 and 5',
+        message: 'La calificación debe estar entre 0 y 5',
       });
     }
 
@@ -102,7 +102,7 @@ exports.createRecipe = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: 'Recipe created successfully',
+      message: 'Receta creada exitosamente',
       data: recipe,
     });
   } catch (error) {
@@ -124,7 +124,7 @@ exports.updateRecipe = async (req, res) => {
     if (!recipe) {
       return res.status(404).json({
         success: false,
-        message: 'Recipe not found',
+        message: 'Receta no encontrada',
       });
     }
 
@@ -134,7 +134,7 @@ exports.updateRecipe = async (req, res) => {
       if (existingRecipe) {
         return res.status(400).json({
           success: false,
-          message: 'A recipe with this title already exists',
+          message: 'Una receta con este título ya existe',
         });
       }
     }
@@ -143,7 +143,7 @@ exports.updateRecipe = async (req, res) => {
     if (preparationTime && (preparationTime < 1 || preparationTime > 1000)) {
       return res.status(400).json({
         success: false,
-        message: 'Preparation time must be between 1 and 1000 minutes',
+        message: 'El tiempo de preparación debe estar entre 1 y 1000 minutos',
       });
     }
 
@@ -151,7 +151,7 @@ exports.updateRecipe = async (req, res) => {
     if (rating && (rating < 0 || rating > 5)) {
       return res.status(400).json({
         success: false,
-        message: 'Rating must be between 0 and 5',
+        message: 'La calificación debe estar entre 0 y 5',
       });
     }
 
@@ -162,7 +162,7 @@ exports.updateRecipe = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: 'Recipe updated successfully',
+      message: 'Receta actualizada exitosamente',
       data: recipe,
     });
   } catch (error) {
@@ -181,13 +181,13 @@ exports.deleteRecipe = async (req, res) => {
     if (!recipe) {
       return res.status(404).json({
         success: false,
-        message: 'Recipe not found',
+        message: 'Receta no encontrada',
       });
     }
 
     res.status(200).json({
       success: true,
-      message: 'Recipe deleted successfully',
+      message: 'Receta eliminada exitosamente',
       data: recipe,
     });
   } catch (error) {

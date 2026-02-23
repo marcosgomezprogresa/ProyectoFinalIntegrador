@@ -49,7 +49,7 @@ app.use(async (req, res, next) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Database error: ' + error.message,
+      message: 'Error de conexión a la base de datos: ' + error.message,
     });
   }
 });
@@ -74,7 +74,7 @@ app.get('/', async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: 'Recipe Management API - MEAN Stack',
+      message: 'API de Gestión de Recetas - MEAN Stack',
       version: '1.0.0',
       baseUrl: 'https://proyectofinalintegradorbackend.vercel.app',
       data: recipes,
@@ -100,7 +100,7 @@ app.get('/', async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Error fetching recipes: ' + error.message,
+      message: 'Error al obtener recetas: ' + error.message,
     });
   }
 });
@@ -109,7 +109,7 @@ app.get('/', async (req, res) => {
 app.get('/api/v1/health', (req, res) => {
   res.status(200).json({
     success: true,
-    message: 'API is running',
+    message: 'La API está en funcionamiento',
     timestamp: new Date(),
   });
 });
@@ -118,7 +118,7 @@ app.get('/api/v1/health', (req, res) => {
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: 'Route not found',
+    message: 'Ruta no encontrada',
   });
 });
 
