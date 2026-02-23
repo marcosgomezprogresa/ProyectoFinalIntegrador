@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 // Import models to register them with Mongoose
@@ -13,7 +14,48 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Routes
+// MongoDB connection middleware - MUST be before routes
+let cachedConnection = null;
+
+const connectDB = async () => {
+  if (cachedConnection && mongoose.connection.readyState === 1) {
+    return cachedConnection;
+  }
+
+  const mongoURI = process.env.MONGODB_URI;
+  if (!mongoURI) {
+    throw new Error('MONGODB_URI not configured');
+  }
+
+  try {
+    const connection = await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 15000,
+      socketTimeoutMS: 60000,
+      bufferMaxEntries: 0,
+    });
+    cachedConnection = connection;
+    return connection;
+  } catch (error) {
+    throw error;
+  }
+};
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Database error: ' + error.message,
+    });
+  }
+});
+
+// Routes AFTER middleware
 const recipeRoutes = require('./src/routes/recipeRoutes');
 app.use('/api/v1/recipes', recipeRoutes);
 
