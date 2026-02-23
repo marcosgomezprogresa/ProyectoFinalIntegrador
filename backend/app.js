@@ -58,27 +58,51 @@ app.use(async (req, res, next) => {
 const recipeRoutes = require('./src/routes/recipeRoutes');
 app.use('/api/v1/recipes', recipeRoutes);
 
-// API Documentation - Root endpoint
-app.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Recipe Management API - MEAN Stack',
-    version: '1.0.0',
-    baseUrl: 'https://proyectofinalintegradorbackend.vercel.app',
-    endpoints: {
-      health: '/api/v1/health',
-      recipes: {
-        getAll: '/api/v1/recipes/get/all?page=1&limit=10',
-        getById: '/api/v1/recipes/get/:id',
-        create: '/api/v1/recipes/post',
-        update: '/api/v1/recipes/update/:id',
-        delete: '/api/v1/recipes/delete/:id',
-        filterByCategory: '/api/v1/recipes/category/:category?page=1&limit=10',
-        filterVegan: '/api/v1/recipes/filter/vegan?page=1&limit=10'
+// API Documentation - Root endpoint - Shows all recipes with pagination
+app.get('/', async (req, res) => {
+  try {
+    const Recipe = mongoose.model('Recipe');
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const total = await Recipe.countDocuments();
+    const recipes = await Recipe.find()
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      message: 'Recipe Management API - MEAN Stack',
+      version: '1.0.0',
+      baseUrl: 'https://proyectofinalintegradorbackend.vercel.app',
+      data: recipes,
+      pagination: {
+        page,
+        limit,
+        total,
+        pages: Math.ceil(total / limit),
+      },
+      availableEndpoints: {
+        health: '/api/v1/health',
+        recipes: {
+          getAll: '/api/v1/recipes/get/all?page=1&limit=10',
+          getById: '/api/v1/recipes/get/:id',
+          create: '/api/v1/recipes/post',
+          update: '/api/v1/recipes/update/:id',
+          delete: '/api/v1/recipes/delete/:id',
+          filterByCategory: '/api/v1/recipes/category/:category?page=1&limit=10',
+          filterVegan: '/api/v1/recipes/filter/vegan?page=1&limit=10'
+        }
       }
-    },
-    documentation: 'See GitHub repository for full documentation'
-  });
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching recipes: ' + error.message,
+    });
+  }
 });
 
 // Health check
