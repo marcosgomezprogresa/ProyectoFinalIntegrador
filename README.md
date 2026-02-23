@@ -547,12 +547,26 @@ Importar y probar todos los endpoints:
 
 ---
 
-## 🌐 URLs de Ejecución Local
+## 🌐 URLs de Ejecución
 
+### 🏠 Local Development
 | Aplicación | URL |
 |------------|-----|
 | **API REST Backend** | `http://localhost:3000` |
 | **API Documentation** | `http://localhost:3000/api/v1/recipes/documentation` |
 | **Frontend Angular** | `http://localhost:4200` |
 | **Frontend React** | `http://localhost:5174` |
+
+### 🚀 Producción - Vercel Deployment
+| Aplicación | URL |
+|------------|-----|
+| **API REST Backend** | https://proyectofinalintegradorbackend.vercel.app/ |
+| **Frontend Angular** | https://proyectofinalintegradorangular.vercel.app/ |
+| **Frontend React** | https://proyecto-final-integradorreact.vercel.app/ |
+
+**Nota:** Todos los servicios están completamente funcionales en producción con:
+- ✅ Backend conectado a MongoDB Atlas
+- ✅ Angular y React consumiendo la API remota
+- ✅ CRUD, filtros y paginación operacionales
+- ✅ Validaciones de reglas de negocio aplicadas
 
