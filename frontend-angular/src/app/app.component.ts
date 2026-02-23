@@ -10,7 +10,7 @@ import { ListadoRecetasComponent } from './components/listado-recetas/listado-re
   template: `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow">
       <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1 fw-bold">🍳 Recetas & Co</span>
+        <span class="navbar-brand mb-0 h1 fw-bold">🍳 Recetas de Marcos</span>
         <button
           class="navbar-toggler"
           type="button"

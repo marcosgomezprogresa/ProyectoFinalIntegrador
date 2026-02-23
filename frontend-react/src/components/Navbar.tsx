@@ -14,7 +14,7 @@ export const Navbar: React.FC = () => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow">
       <div className="container-fluid">
         <Link to="/" className="navbar-brand fw-bold fs-5">
-          🍳 Recetas & Co
+          🍳 Recetas de Marcos
         </Link>
         <button
           className="navbar-toggler"
