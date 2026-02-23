@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Recipe } from '../types/Recipe';
+import { Recipe } from '../common/Interfaces';
 import { recipeService } from '../services/recipeService';
-import { DetalleReceta } from './DetalleReceta';
-import { FormularioReceta } from './FormularioReceta';
-import './ListadoRecetas.css';
+import { DetalleReceta } from '../components/DetalleReceta';
+import { FormularioReceta } from '../components/FormularioReceta';
+import './RecetasPage.css';
 import { Modal } from 'bootstrap';
 
-export const ListadoRecetas: React.FC = () => {
+export const RecetasPage: React.FC = () => {
   const [recetas, setRecetas] = useState<Recipe[]>([]);
   const [cargando, setCargando] = useState(false);
   const [mensajeError, setMensajeError] = useState<string | null>(null);

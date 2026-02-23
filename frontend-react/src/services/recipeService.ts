@@ -1,4 +1,4 @@
-import { Recipe, PaginationResponse, ApiResponse } from '../types/Recipe';
+import { Recipe, PaginationResponse, ApiResponse } from '../common/Interfaces';
 
 const API_URL = 'https://proyectofinalintegradorbackend.vercel.app/api/v1/recipes';
 

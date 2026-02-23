@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Recipe } from '../types/Recipe';
+import { Recipe } from '../common/Interfaces';
 import { recipeService } from '../services/recipeService';
 import './FormularioReceta.css';
 

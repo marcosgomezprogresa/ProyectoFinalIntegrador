@@ -1,5 +1,5 @@
 import React from 'react';
-import { Recipe } from '../types/Recipe';
+import { Recipe } from '../common/Interfaces';
 import './DetalleReceta.css';
 
 interface DetalleRecetaProps {

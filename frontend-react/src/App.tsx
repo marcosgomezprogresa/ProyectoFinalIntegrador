@@ -1,6 +1,6 @@
 
-import { Navbar } from './components/Navbar';
-import { ListadoRecetas } from './components/ListadoRecetas';
+import { Navbar } from './layout/Navbar';
+import { RecetasPage } from './pages/RecetasPage';
 import './App.css';
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <Navbar />
       <main>
-        <ListadoRecetas />
+        <RecetasPage />
       </main>
     </div>
   );
