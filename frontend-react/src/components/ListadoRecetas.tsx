@@ -214,87 +214,113 @@ export const ListadoRecetas: React.FC = () => {
             </div>
           )}
 
-          {/* Tabla Recetas */}
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">Recetas ({paginacion.total} total)</h5>
-              <div className="table-responsive">
-                <table className="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Título</th>
-                      <th>Categoría</th>
-                      <th>Tiempo (min)</th>
-                      <th>Dificultad</th>
-                      <th>Rating</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {recetas.map((receta) => (
-                      <tr key={receta._id}>
-                        <td>{receta.title}</td>
-                        <td>
-                          <span className={`badge ${obtenerClaseBadgeCategoria(receta.category)}`}>
-                            {obtenerEtiquetaCategoria(receta.category)}
-                          </span>
-                        </td>
-                        <td>{receta.preparationTime}</td>
-                        <td>
-                          <span className={`badge ${obtenerClaseBadgeDificultad(receta.difficulty)}`}>
-                            {obtenerEtiquetaDificultad(receta.difficulty)}
-                          </span>
-                        </td>
-                        <td>⭐ {receta.rating}</td>
-                        <td>
-                          <button className="btn btn-sm btn-primary" onClick={() => verReceta(receta)}>
-                            Ver
-                          </button>
-                          <button className="btn btn-sm btn-warning ms-1" onClick={() => editarReceta(receta)}>
-                            Editar
-                          </button>
-                          <button
-                            className="btn btn-sm btn-danger ms-1"
-                            onClick={() => eliminarReceta(receta._id!)}
-                          >
-                            Eliminar
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+          {/* Grid Tarjetas Recetas */}
+          <div className="mb-5">
+            <h3 className="mb-4 fw-bold">📋 Recetas ({paginacion.total} total)</h3>
+            
+            {recetas.length > 0 ? (
+              <>
+                <div className="row g-4">
+                  {recetas.map((receta) => (
+                    <div key={receta._id} className="col-lg-4 col-md-6">
+                      <div className="card h-100 shadow-sm border-0">
+                        {/* Imagen o Placeholder */}
+                        <div style={{ height: '180px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {receta.imageUrl ? (
+                            <img src={receta.imageUrl} alt={receta.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          ) : (
+                            <div style={{ fontSize: '3rem' }}>🍳</div>
+                          )}
+                        </div>
 
-              {/* Paginación */}
-              <nav>
-                <ul className="pagination justify-content-center">
-                  <li className={`page-item ${paginacion.page <= 1 ? 'disabled' : ''}`}>
-                    <button
-                      className="page-link"
-                      onClick={() => irAPagina(paginacion.page - 1)}
-                      disabled={paginacion.page <= 1}
-                    >
-                      Anterior
-                    </button>
-                  </li>
-                  <li className="page-item active">
-                    <span className="page-link">
-                      Página {paginacion.page} de {paginacion.pages}
-                    </span>
-                  </li>
-                  <li className={`page-item ${paginacion.page >= paginacion.pages ? 'disabled' : ''}`}>
-                    <button
-                      className="page-link"
-                      onClick={() => irAPagina(paginacion.page + 1)}
-                      disabled={paginacion.page >= paginacion.pages}
-                    >
-                      Siguiente
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-            </div>
+                        {/* Card Body */}
+                        <div className="card-body d-flex flex-column">
+                          {/* Tags */}
+                          <div className="mb-2">
+                            <span className={`badge me-2 ${obtenerClaseBadgeCategoria(receta.category)}`}>
+                              {obtenerEtiquetaCategoria(receta.category)}
+                            </span>
+                            <span className={`badge me-2 ${obtenerClaseBadgeDificultad(receta.difficulty)}`}>
+                              {obtenerEtiquetaDificultad(receta.difficulty)}
+                            </span>
+                            {receta.isVegan && <span className="badge bg-success me-2">🌱 Vegana</span>}
+                            {receta.isGlutenFree && <span className="badge bg-info">🚫 Sin Gluten</span>}
+                          </div>
+
+                          {/* Título */}
+                          <h6 className="card-title fw-bold mb-2">{receta.title}</h6>
+
+                          {/* Descripción */}
+                          <p className="card-text text-muted small flex-grow-1">{receta.description?.substring(0, 80)}...</p>
+
+                          {/* Info */}
+                          <div className="d-flex justify-content-between text-muted small mb-3 border-top border-bottom py-2">
+                            <span>⏱️ {receta.preparationTime} min</span>
+                            <span>👥 {receta.servings} porciones</span>
+                            <span>⭐ {receta.rating}/5</span>
+                          </div>
+
+                          {/* Acciones */}
+                          <div className="d-grid gap-2">
+                            <button 
+                              className="btn btn-sm btn-primary" 
+                              onClick={() => verReceta(receta)}
+                            >
+                              👁️ Ver Detalles
+                            </button>
+                            <button 
+                              className="btn btn-sm btn-warning" 
+                              onClick={() => editarReceta(receta)}
+                            >
+                              ✏️ Editar
+                            </button>
+                            <button
+                              className="btn btn-sm btn-danger"
+                              onClick={() => eliminarReceta(receta._id!)}
+                            >
+                              🗑️ Eliminar
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Paginación */}
+                <nav className="d-flex justify-content-center mt-5">
+                  <ul className="pagination">
+                    <li className={`page-item ${paginacion.page <= 1 ? 'disabled' : ''}`}>
+                      <button
+                        className="page-link"
+                        onClick={() => irAPagina(paginacion.page - 1)}
+                        disabled={paginacion.page <= 1}
+                      >
+                        ← Anterior
+                      </button>
+                    </li>
+                    <li className="page-item active">
+                      <span className="page-link">
+                        Página {paginacion.page}/{paginacion.pages}
+                      </span>
+                    </li>
+                    <li className={`page-item ${paginacion.page >= paginacion.pages ? 'disabled' : ''}`}>
+                      <button
+                        className="page-link"
+                        onClick={() => irAPagina(paginacion.page + 1)}
+                        disabled={paginacion.page >= paginacion.pages}
+                      >
+                        Siguiente →
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              </>
+            ) : (
+              <div className="alert alert-info text-center">
+                <p className="mb-0">No hay recetas disponibles</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
