@@ -1,6 +1,6 @@
 const Recipe = require('../models/Recipe');
 
-// GET all recipes with pagination
+// OBTENER todas las recetas con paginación
 exports.getAllRecipes = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -31,7 +31,7 @@ exports.getAllRecipes = async (req, res) => {
   }
 };
 
-// GET recipe by ID
+// OBTENER receta por ID
 exports.getRecipeById = async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.id);
@@ -55,12 +55,12 @@ exports.getRecipeById = async (req, res) => {
   }
 };
 
-// CREATE new recipe
+// CREAR nueva receta
 exports.createRecipe = async (req, res) => {
   try {
     const { title, description, ingredients, preparationTime, servings, difficulty, category, isVegan, isGlutenFree, rating } = req.body;
 
-    // Business Logic: Validate title doesn't exist
+    // Lógica de Negocio: Validar que el título no exista
     const existingRecipe = await Recipe.findOne({ title });
     if (existingRecipe) {
       return res.status(400).json({
@@ -69,15 +69,15 @@ exports.createRecipe = async (req, res) => {
       });
     }
 
-    // Business Logic: Validate preparation time
-    if (preparationTime < 1 || preparationTime > 1000) {
+    // Lógica de Negocio: Validar tiempo de preparación
+    if (preparationTime && (preparationTime < 1 || preparationTime > 1000)) {
       return res.status(400).json({
         success: false,
         message: 'El tiempo de preparación debe estar entre 1 y 1000 minutos',
       });
     }
 
-    // Business Logic: Validate rating range
+    // Lógica de Negocio: Validar rango de calificación
     if (rating && (rating < 0 || rating > 5)) {
       return res.status(400).json({
         success: false,
@@ -113,13 +113,13 @@ exports.createRecipe = async (req, res) => {
   }
 };
 
-// UPDATE recipe
+// ACTUALIZAR receta
 exports.updateRecipe = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, ingredients, preparationTime, servings, difficulty, category, isVegan, isGlutenFree, rating } = req.body;
 
-    // Check if recipe exists
+    // Verificar si la receta existe
     let recipe = await Recipe.findById(id);
     if (!recipe) {
       return res.status(404).json({
@@ -128,7 +128,7 @@ exports.updateRecipe = async (req, res) => {
       });
     }
 
-    // Business Logic: If title is being updated, check for duplicates
+    // Lógica de Negocio: Si se está actualizando el título, verificar duplicados
     if (title && title !== recipe.title) {
       const existingRecipe = await Recipe.findOne({ title });
       if (existingRecipe) {
@@ -139,7 +139,7 @@ exports.updateRecipe = async (req, res) => {
       }
     }
 
-    // Business Logic: Validate preparation time
+    // Lógica de Negocio: Validar tiempo de preparación
     if (preparationTime && (preparationTime < 1 || preparationTime > 1000)) {
       return res.status(400).json({
         success: false,
@@ -147,7 +147,7 @@ exports.updateRecipe = async (req, res) => {
       });
     }
 
-    // Business Logic: Validate rating range
+    // Lógica de Negocio: Validar rango de calificación
     if (rating && (rating < 0 || rating > 5)) {
       return res.status(400).json({
         success: false,
@@ -173,7 +173,7 @@ exports.updateRecipe = async (req, res) => {
   }
 };
 
-// DELETE recipe
+// ELIMINAR receta
 exports.deleteRecipe = async (req, res) => {
   try {
     const recipe = await Recipe.findByIdAndDelete(req.params.id);
@@ -198,7 +198,7 @@ exports.deleteRecipe = async (req, res) => {
   }
 };
 
-// GET recipes by category (filter)
+// OBTENER recetas por categoría (filtro)
 exports.getRecipesByCategory = async (req, res) => {
   try {
     const { category } = req.params;
@@ -230,7 +230,7 @@ exports.getRecipesByCategory = async (req, res) => {
   }
 };
 
-// GET vegan recipes
+// OBTENER recetas veganas
 exports.getVeganRecipes = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -261,7 +261,7 @@ exports.getVeganRecipes = async (req, res) => {
   }
 };
 
-// GET Documentation
+// OBTENER Documentación
 exports.getDocumentation = async (req, res) => {
   res.status(200).json({
     success: true,

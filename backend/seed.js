@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-const Recipe = require('./src/models/Recipe');
+const Recipe = require('./models/Recipe');
 
 const recipes = [
   {
@@ -300,25 +300,25 @@ const seedDatabase = async () => {
       useUnifiedTopology: true,
     });
 
-    console.log('✓ MongoDB connected');
+    console.log('✓ MongoDB conectado');
 
-    // Clear existing data
+    // Limpiar datos existentes
     await Recipe.deleteMany({});
-    console.log('✓ Cleared existing recipes');
+    console.log('✓ Recetas existentes eliminadas');
 
-    // Insert recipes
+    // Insertar recetas
     const inserted = await Recipe.insertMany(recipes);
-    console.log(`✓ Inserted ${inserted.length} recipes`);
+    console.log(`✓ ${inserted.length} recetas insertadas`);
 
-    console.log('\n📋 Sample Recipes:');
+    console.log('\n📋 Recetas de ejemplo:');
     recipes.slice(0, 5).forEach((r, i) => {
       console.log(`  ${i + 1}. ${r.title} (${r.category})`);
     });
 
     await mongoose.connection.close();
-    console.log('\n✓ Database seeded successfully!\n');
+    console.log('\n✓ ¡Base de datos poblada exitosamente!\n');
   } catch (error) {
-    console.error('✗ Error seeding database:', error.message);
+    console.error('✗ Error al poblar la base de datos:', error.message);
     process.exit(1);
   }
 };

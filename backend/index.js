@@ -4,7 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-// Import models to register them with Mongoose
+// Importar modelos para registrarlos en Mongoose
 require('./models/Recipe');
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// MongoDB connection middleware - MUST be before routes
+// Middleware de conexión MongoDB - DEBE estar antes de las rutas
 let cachedConnection = null;
 
 const connectDB = async () => {
@@ -24,7 +24,7 @@ const connectDB = async () => {
 
   const mongoURI = process.env.MONGODB_URI;
   if (!mongoURI) {
-    throw new Error('MONGODB_URI not configured');
+    throw new Error('MONGODB_URI no configurada');
   }
 
   try {
@@ -54,11 +54,11 @@ app.use(async (req, res, next) => {
   }
 });
 
-// Routes AFTER middleware
+// Rutas DESPUÉS del middleware
 const recipeRoutes = require('./routes/recipeRoutes');
 app.use('/api/v1/recipes', recipeRoutes);
 
-// API Documentation - Root endpoint - Shows all recipes with pagination
+// Documentación de la API - Endpoint raíz - Muestra todas las recetas con paginación
 app.get('/', async (req, res) => {
   try {
     const Recipe = mongoose.model('Recipe');
@@ -105,7 +105,7 @@ app.get('/', async (req, res) => {
   }
 });
 
-// Health check
+// Verificación de salud
 app.get('/api/v1/health', (req, res) => {
   res.status(200).json({
     success: true,
@@ -114,7 +114,7 @@ app.get('/api/v1/health', (req, res) => {
   });
 });
 
-// 404 handler
+// Manejador 404
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -126,8 +126,8 @@ app.use((req, res) => {
 if (!process.env.VERCEL) {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
-    console.log(`\n✓ Server running on http://localhost:${PORT}`);
-    console.log(`✓ API Documentation: http://localhost:${PORT}/api/v1/recipes/documentation\n`);
+    console.log(`\n✓ Servidor ejecutándose en http://localhost:${PORT}`);
+    console.log(`✓ Documentación de la API: http://localhost:${PORT}/api/v1/recipes/documentation\n`);
   });
 }
 
