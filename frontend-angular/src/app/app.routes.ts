@@ -17,4 +17,7 @@ export const routes: Routes = [
     redirectTo: '/recetas'
   }
 ];
-//ya no hacen falta mas rutas mas que nada pq uso modales
+/* Trabajo con modales de Bootstrap para el CRUD, por lo que toda
+ la funcionalidad está en una sola página. 
+ No necesito rutas individuales para crear/editar/ver porque 
+ se manejan con modales que no cambian la URL*/ 
