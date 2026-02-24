@@ -95,8 +95,6 @@ El sistema implementa 3 reglas de negocio críticas que se validan tanto en back
 ProyectoFinalIntegrador/
 ├── backend/                          # API REST Node.js + Express
 │   ├── src/
-│   │   ├── config/
-│   │   │   └── (configuración de BD)
 │   │   ├── models/
 │   │   │   └── Recipe.js             # Esquema Mongoose
 │   │   ├── controllers/
@@ -104,38 +102,47 @@ ProyectoFinalIntegrador/
 │   │   ├── routes/
 │   │   │   └── recipeRoutes.js       # Definición de endpoints
 │   │   └── middlewares/
-│   │       └── (manejo de errores, CORS, etc)
-│   ├── app.js                        # Configuración Express
-│   ├── server.js                     # Punto de entrada
+│   │       └── database.js           # Conexión MongoDB
+│   ├── api/
+│   │   └── index.js                  # Serverless entry (Vercel)
+│   ├── index.js                      # Configuración Express principal
 │   ├── seed.js                       # Script para poblar BD (22 recetas)
 │   └── package.json
 │
-├── frontend-angular/                 #Angular
+├── frontend-angular/                 # Cliente Angular
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── components/
-│   │   │   │   ├── recipe-list/       # Lista y tabla de recetas
-│   │   │   │   ├── recipe-detail/     # Modal con detalles
-│   │   │   │   ├── recipe-form/       # Formulario reactivo
+│   │   │   │   ├── listado-recetas/   # Lista y tabla de recetas
+│   │   │   │   ├── detalle-receta/    # Modal con detalles
+│   │   │   │   ├── formulario-receta/ # Formulario reactivo
 │   │   │   │   └── navbar/            # Navegación
+│   │   │   ├── models/
+│   │   │   │   └── recipe.model.ts    # Interfaces TypeScript
 │   │   │   ├── services/
 │   │   │   │   └── recipe.service.ts  # Comunicación API
-│   │   │   └── app.routes.ts          # Rutas
-│   │   ├── styles.css                # Bootstrap + estilos mínimos
-│   │   └── main.ts
+│   │   │   ├── app.component.ts       # Componente raíz
+│   │   │   └── app.routes.ts          # Configuración de rutas
+│   │   ├── styles.css                 # Estilos globales
+│   │   └── main.ts                    # Punto de entrada
 │   └── package.json
 │
 ├── frontend-react/                   # Cliente React
 │   ├── src/
-│   │   ├── components/
-│   │   │   ├── ListadoRecetas.tsx     # Lista y tabla de recetas
-│   │   │   ├── DetalleReceta.tsx      # Modal con detalles
-│   │   │   ├── FormularioReceta.tsx   # Formulario controlado
+│   │   ├── layout/
 │   │   │   └── Navbar.tsx             # Navegación
+│   │   ├── pages/
+│   │   │   └── RecetasPage.tsx        # Página principal CRUD
+│   │   ├── components/
+│   │   │   ├── DetalleReceta.tsx      # Modal con detalles
+│   │   │   └── FormularioReceta.tsx   # Formulario controlado
+│   │   ├── common/
+│   │   │   └── Interfaces.ts          # Tipos TypeScript
 │   │   ├── services/
 │   │   │   └── recipeService.ts       # Comunicación API (Fetch)
-│   │   ├── index.html                 # Bootstrap CDN aquí 
-│   │   └── main.tsx
+│   │   ├── App.tsx                    # Componente raíz con Routes
+│   │   ├── main.tsx                   # Punto de entrada
+│   │   └── index.html                 # Bootstrap CDN
 │   └── package.json
 │
 └── README.md                         # Esta documentación
