@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
-const Recipe = require('./models/Recipe');
+const Recipe = require('./src/models/Recipe');
 
 const recipes = [
   {

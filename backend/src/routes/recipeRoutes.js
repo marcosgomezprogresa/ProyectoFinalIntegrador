@@ -20,7 +20,7 @@ module.exports = router;
 
 // Probar en internet las rutas 
 // 
-// ✅ Obtener todas las recetas (paginadas):
+// ✅ Obtener todas las recetas pero paginadas:
 // https://proyectofinalintegradorbackend.vercel.app/api/v1/recipes/get/all?page=1&limit=10
 // 
 // ✅ Obtener receta por ID 
@@ -33,7 +33,7 @@ module.exports = router;
 // ✅ Filtrar recetas veganas:
 // https://proyectofinalintegradorbackend.vercel.app/api/v1/recipes/filter/vegan?page=1&limit=10
 // 
-// ⚠️ Las siguientes necesitan Postman/Thunder Client (no funcionan en navegador):
+// ESTAS EM POSTMAN
 // POST   https://proyectofinalintegradorbackend.vercel.app/api/v1/recipes/post
 // PATCH  https://proyectofinalintegradorbackend.vercel.app/api/v1/recipes/update/699c62f2159cb2101fbc8723
 // DELETE https://proyectofinalintegradorbackend.vercel.app/api/v1/recipes/delete/699c62f2159cb2101fbc8723

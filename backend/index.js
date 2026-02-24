@@ -5,7 +5,10 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 // Importar modelos para registrarlos en Mongoose
-require('./models/Recipe');
+require('./src/models/Recipe');
+
+// Importar middleware de base de datos
+const { ensureConnection } = require('./src/middlewares/database');
 
 const app = express();
 
@@ -15,47 +18,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Middleware de conexión MongoDB - DEBE estar antes de las rutas
-let cachedConnection = null;
-
-const connectDB = async () => {
-  if (cachedConnection && mongoose.connection.readyState === 1) {
-    return cachedConnection;
-  }
-
-  const mongoURI = process.env.MONGODB_URI;
-  if (!mongoURI) {
-    throw new Error('MONGODB_URI no configurada');
-  }
-
-  try {
-    const connection = await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      maxPoolSize: 10,
-      serverSelectionTimeoutMS: 15000,
-      socketTimeoutMS: 60000,
-    });
-    cachedConnection = connection;
-    return connection;
-  } catch (error) {
-    throw error;
-  }
-};
-
-app.use(async (req, res, next) => {
-  try {
-    await connectDB();
-    next();
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error de conexión a la base de datos: ' + error.message,
-    });
-  }
-});
+app.use(ensureConnection);
 
 // Rutas DESPUÉS del middleware
-const recipeRoutes = require('./routes/recipeRoutes');
+const recipeRoutes = require('./src/routes/recipeRoutes');
 app.use('/api/v1/recipes', recipeRoutes);
 
 // Documentación de la API - Endpoint raíz - Muestra todas las recetas con paginación
