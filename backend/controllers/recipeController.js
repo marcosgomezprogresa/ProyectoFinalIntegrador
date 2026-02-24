@@ -1,4 +1,4 @@
-const Recipe = require('../models/Recipe');
+const Recipe = require('../models/Recipe'); //pillo el schema
 
 // OBTENER todas las recetas con paginación
 exports.getAllRecipes = async (req, res) => {
