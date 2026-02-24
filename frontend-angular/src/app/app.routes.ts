@@ -19,5 +19,4 @@ export const routes: Routes = [
 ];
 /* Trabajo con modales de Bootstrap para el CRUD, por lo que toda
  la funcionalidad está en una sola página. 
- No necesito rutas individuales para crear/editar/ver porque 
- se manejan con modales que no cambian la URL*/ 
+*/ 
