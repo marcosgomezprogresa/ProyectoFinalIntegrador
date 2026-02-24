@@ -17,3 +17,4 @@ export const routes: Routes = [
     redirectTo: '/recetas'
   }
 ];
+//ya no hacen falta mas rutas mas que nada pq uso modales
