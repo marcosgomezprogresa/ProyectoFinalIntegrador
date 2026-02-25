@@ -99,7 +99,7 @@ export class FormularioRecetaComponent implements OnInit {
     console.log('✅ Formulario parchado y detectados cambios');
   }
 
-  private inicializarFormulario() {
+  private inicializarFormulario() { //vadilaciones
     this.formulario = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
