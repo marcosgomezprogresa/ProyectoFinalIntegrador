@@ -371,7 +371,7 @@ Response 200 OK:
 ### 🔧 Backend (Node.js + Express + MongoDB)
 
 **1. Instalar dependencias:**
-```bash
+
 cd backend
 npm install
 ```
