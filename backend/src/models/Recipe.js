@@ -70,6 +70,7 @@ const recipeSchema = new mongoose.Schema(
 );
 
 // Middleware para actualizar updatedAt
+//mongoose guarda automaticamente
 recipeSchema.pre('save', function (next) {
   this.updatedAt = Date.now();
   next();

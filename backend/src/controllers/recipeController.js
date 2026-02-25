@@ -60,7 +60,7 @@ exports.createRecipe = async (req, res) => {
   try {
     const { title, description, ingredients, preparationTime, servings, difficulty, category, isVegan, isGlutenFree, rating } = req.body;
 
-    // Lógica de Negocio: Validar que el título no exista
+    // Validar que el título no exista
     const existingRecipe = await Recipe.findOne({ title });
     if (existingRecipe) {
       return res.status(400).json({
@@ -69,7 +69,7 @@ exports.createRecipe = async (req, res) => {
       });
     }
 
-    // Lógica de Negocio: Validar tiempo de preparación
+    // Validar tiempo de preparación
     if (preparationTime && (preparationTime < 1 || preparationTime > 1000)) {
       return res.status(400).json({
         success: false,
@@ -77,7 +77,7 @@ exports.createRecipe = async (req, res) => {
       });
     }
 
-    // Lógica de Negocio: Validar rango de calificación
+    //  Validar rango de calificación
     if (rating && (rating < 0 || rating > 5)) {
       return res.status(400).json({
         success: false,
@@ -128,7 +128,7 @@ exports.updateRecipe = async (req, res) => {
       });
     }
 
-    // Lógica de Negocio: Si se está actualizando el título, verificar duplicados
+    //Si se está actualizando el título, verificar duplicados
     if (title && title !== recipe.title) {
       const existingRecipe = await Recipe.findOne({ title });
       if (existingRecipe) {
@@ -139,7 +139,7 @@ exports.updateRecipe = async (req, res) => {
       }
     }
 
-    // Lógica de Negocio: Validar tiempo de preparación
+    // Validar tiempo de preparación
     if (preparationTime && (preparationTime < 1 || preparationTime > 1000)) {
       return res.status(400).json({
         success: false,
@@ -147,7 +147,7 @@ exports.updateRecipe = async (req, res) => {
       });
     }
 
-    // Lógica de Negocio: Validar rango de calificación
+    // Validar rango de calificación
     if (rating && (rating < 0 || rating > 5)) {
       return res.status(400).json({
         success: false,
@@ -268,7 +268,7 @@ exports.getDocumentation = async (req, res) => {
     message: 'API de Gestión de Recetas - Documentación',
     version: '1.0.0',
     endpoints: {
-      documentation: 'GET /api/v1/documentation',
+      documentation: 'GET /api/v1/recipes/documentation',
       recipes: {
         getAll: 'GET /api/v1/recipes/get/all?page=1&limit=10',
         getById: 'GET /api/v1/recipes/get/:id',

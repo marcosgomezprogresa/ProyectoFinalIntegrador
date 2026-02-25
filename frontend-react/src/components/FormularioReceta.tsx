@@ -7,7 +7,7 @@ interface FormularioRecetaProps {
   receta?: Recipe | null;
   onGuardada: (mensaje: string) => void;
   onCerrada: () => void;
-}
+}//el hijo de Recetas page, para que actualice 
 
 export const FormularioReceta: React.FC<FormularioRecetaProps> = ({ receta, onGuardada, onCerrada }) => {
   const [formulario, setFormulario] = useState<Partial<Recipe>>({

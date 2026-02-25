@@ -3,7 +3,7 @@ const router = express.Router();
 const recipeController = require('../controllers/recipeController');
 
 // Documentación
-router.get('/documentation', recipeController.getDocumentation);
+router.get('/api/v1/recipes/documentation', recipeController.getDocumentation);
 
 // Rutas CRUD
 router.get('/get/all', recipeController.getAllRecipes);

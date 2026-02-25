@@ -568,7 +568,7 @@ Importar y probar todos los endpoints:
 | Aplicación | URL |
 |------------|-----|
 | **API REST Backend** | https://proyectofinalintegradorbackend.vercel.app/ |
-| **Frontend Angular** | https://proyectofinalintegradorangular.vercel.app/ |
+| **Frontend Angular** | https://proyectofinalintegradorangular.vercel.app/recetas |
 | **Frontend React** | https://proyecto-final-integradorreact.vercel.app/ |
 
 **Nota:** Todos los servicios están completamente funcionales en producción con:

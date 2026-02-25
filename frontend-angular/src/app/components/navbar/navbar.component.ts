@@ -10,6 +10,8 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+
+  //la pagina estara mas chula, baja suavemente
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }

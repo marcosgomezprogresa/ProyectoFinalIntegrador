@@ -7,6 +7,7 @@ import './RecetasPage.css';
 import { Modal } from 'bootstrap';
 
 export const RecetasPage: React.FC = () => {
+  //alamecenar mis datos que puedencambiar
   const [recetas, setRecetas] = useState<Recipe[]>([]);
   const [cargando, setCargando] = useState(false);
   const [mensajeError, setMensajeError] = useState<string | null>(null);

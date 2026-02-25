@@ -6,6 +6,7 @@ let cachedConnection = null;
 /**
  * Middleware de conexión a MongoDB
  * Reutiliza la conexión existente si está disponible (importante para serverless)
+ * Reutilizar la conexión
  */
 const connectDB = async () => {
   if (cachedConnection && mongoose.connection.readyState === 1) {

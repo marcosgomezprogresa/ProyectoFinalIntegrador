@@ -12,6 +12,7 @@ import { Recipe } from '../../models/recipe.model';
   styleUrls: ['./formulario-receta.component.css']
 })
 export class FormularioRecetaComponent implements OnInit {
+  //sistema de comunicacion hijo padre, con el listado
   @Output() guardada = new EventEmitter<string>();
   @Output() cerrada = new EventEmitter<void>();
 
@@ -20,7 +21,7 @@ export class FormularioRecetaComponent implements OnInit {
   @Input() set receta(value: Recipe | null) {
     console.log('📥 @Input receta cambió:', value);
     this._receta = value;
-    
+    //pariable privada para aaceso con un setter o getter _receta
     // Si tenemos receta y el formulario ya está inicializado, precargar datos
     if (this.formulario && this._receta && this._receta._id) {
       console.log('✏️ Precargando datos de receta en el setter');

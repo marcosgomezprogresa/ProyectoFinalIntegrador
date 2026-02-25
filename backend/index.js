@@ -4,15 +4,15 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-// Importar modelos para registrarlos en Mongoose
+// Importar modelos para registrarlos en Mongoose, cargarlos
 require('./src/models/Recipe');
 
-// Importar middleware de base de datos
+// Importar middleware de base de datos, lo que necesitas
 const { ensureConnection } = require('./src/middlewares/database');
-
+//ejecuta antes de cada peticion, verifica que hay conexion
 const app = express();
 
-// Middleware
+// Middleware, MongoDB debe conectarse ANTES de ejecutar las rutas
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Middleware de conexión MongoDB - DEBE estar antes de las rutas
 app.use(ensureConnection);
 
-// Rutas DESPUÉS del middleware
+// Rutas DESPUÉS del middleware, las monta
 const recipeRoutes = require('./src/routes/recipeRoutes');
 app.use('/api/v1/recipes', recipeRoutes);
 
@@ -71,7 +71,7 @@ app.get('/', async (req, res) => {
   }
 });
 
-// Verificación de salud
+// Verificación de salud, verifica que la api este viva
 app.get('/api/v1/health', (req, res) => {
   res.status(200).json({
     success: true,
@@ -80,7 +80,7 @@ app.get('/api/v1/health', (req, res) => {
   });
 });
 
-// Manejador 404
+// Manejador 404, captura rutas no encontradas
 app.use((req, res) => {
   res.status(404).json({
     success: false,
