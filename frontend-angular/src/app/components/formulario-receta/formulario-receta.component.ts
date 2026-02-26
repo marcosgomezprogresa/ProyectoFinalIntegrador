@@ -99,7 +99,7 @@ export class FormularioRecetaComponent implements OnInit {
     console.log('✅ Formulario parchado y detectados cambios');
   }
 
-  private inicializarFormulario() { //vadilaciones
+  private inicializarFormulario() { //vadilaciones, formularios
     this.formulario = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
@@ -124,6 +124,7 @@ export class FormularioRecetaComponent implements OnInit {
     this.cargando = true;
     this.mensajeError = null;
 
+    // ACTUALIZAR
     if (this.esEdicion && this.receta) {
       this.recipeService.updateRecipe(this.receta._id!, this.formulario.value).subscribe({
         next: (response) => {
@@ -136,6 +137,7 @@ export class FormularioRecetaComponent implements OnInit {
         }
       });
     } else {
+      // CREAR
       this.recipeService.createRecipe(this.formulario.value).subscribe({
         next: (response) => {
           this.cargando = false;

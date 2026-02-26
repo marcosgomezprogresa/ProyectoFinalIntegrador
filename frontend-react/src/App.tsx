@@ -19,5 +19,3 @@ function App() {
 }
 
 export default App;
-//como solo trabajo en una pagina no necesito mas rutas
-//modelo recipe  

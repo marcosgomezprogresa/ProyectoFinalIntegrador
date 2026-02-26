@@ -36,6 +36,7 @@ export class ListadoRecetasComponent implements OnInit {
     this.cargarRecetas();
   }
 
+  // READ
   cargarRecetas() {
     console.log('📥 cargarRecetas() llamado');
     this.cargando = true;
@@ -164,6 +165,7 @@ export class ListadoRecetasComponent implements OnInit {
     setTimeout(() => this.mensajeExito = null, 3000);
   }
 
+  // DELETE
   eliminarReceta(id: string) {
     if (confirm('¿Estás seguro de que deseas eliminar esta receta?')) {
       this.recipeService.deleteRecipe(id).subscribe({

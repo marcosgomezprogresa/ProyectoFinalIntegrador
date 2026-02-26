@@ -9,14 +9,14 @@ import { Modal } from 'bootstrap';
 export const RecetasPage: React.FC = () => {
   //alamecenar mis datos que puedencambiar
   const [recetas, setRecetas] = useState<Recipe[]>([]);
-  const [cargando, setCargando] = useState(false);
-  const [mensajeError, setMensajeError] = useState<string | null>(null);
-  const [mensajeExito, setMensajeExito] = useState<string | null>(null);
+  const [cargando, setCargando] = useState(false);//sipnner
+  const [mensajeError, setMensajeError] = useState<string | null>(null);//alert rojo
+  const [mensajeExito, setMensajeExito] = useState<string | null>(null);//alert verde
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [recetaSeleccionada, setRecetaSeleccionada] = useState<Recipe | null>(null);
   const [recetaEditando, setRecetaEditando] = useState<Recipe | null>(null);
 
-  // Refs para modales Bootstrap
+  // Refs para modales Bootstrap, sin renderizar
   const detailModalRef = useRef<HTMLDivElement>(null);
   const formModalRef = useRef<HTMLDivElement>(null);
   const detailModalInstance = useRef<Modal | null>(null);
@@ -398,7 +398,7 @@ export const RecetasPage: React.FC = () => {
               ></button>
             </div>
             <div className="modal-body">
-              <FormularioReceta
+              <FormularioReceta //PADRE
                 receta={recetaEditando}
                 onGuardada={alRecetaGuardada}
                 onCerrada={() => {

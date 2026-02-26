@@ -2,10 +2,10 @@ import React from 'react';
 import { Recipe } from '../common/Interfaces';
 import './DetalleReceta.css';
 
-interface DetalleRecetaProps {
+interface DetalleRecetaProps {//tipo de las props
   receta: Recipe;
 }
-
+//recibe el prop
 export const DetalleReceta: React.FC<DetalleRecetaProps> = ({ receta }) => {
   const obtenerClaseDificultad = (difficulty: string): string => {
     const clases: Record<string, string> = {
